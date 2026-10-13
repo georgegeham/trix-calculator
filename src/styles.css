@@ -33,7 +33,7 @@ p { margin: 0 }
 .wrap {
   max-width: 760px; margin: 0 auto; padding-inline: 16px;
   padding-block: calc(18px + env(safe-area-inset-top, 0px)) calc(56px + env(safe-area-inset-bottom, 0px));
-  display: grid; gap: 22px;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px;
 }
 
 /* header */
@@ -42,6 +42,8 @@ p { margin: 0 }
 .brand h1 { font-family: var(--display); font-weight: 400; font-size: 42px; line-height: .9; margin: 0; letter-spacing: .01em }
 .status { color: var(--muted); font-size: 13px; margin-top: 4px }
 .logo { transform: rotate(-8deg) }
+.top-actions { display: flex; align-items: center; gap: 8px }
+.top-actions .btn[aria-pressed="false"] { color: var(--muted) }
 
 /* buttons */
 .btn {
@@ -139,13 +141,13 @@ p { margin: 0 }
 /* score sheet */
 .ledger-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px }
 .ledger-head h2 { font-family: var(--display); font-weight: 400; font-size: 28px; margin: 0; line-height: 1 }
-.ledger-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 18px }
+.ledger-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 18px 18px 0 0 }
 .ledger { width: 100%; min-width: 440px; border-collapse: collapse; font-variant-numeric: tabular-nums }
 .ledger th, .ledger td { padding: 10px; text-align: right; border-bottom: 1px solid var(--line) }
 .ledger .rn { text-align: left; width: 36px; color: var(--muted); font-size: 13px }
 .ledger .gm { text-align: left }
 .ledger thead th { font-size: 12px; font-weight: 600; color: var(--muted); vertical-align: bottom }
-.ph-in { display: inline-flex; flex-direction: column; align-items: flex-end; gap: 4px }
+.ph-in { display: inline-flex; flex-direction: column; align-items: center; gap: 4px }
 .ph-in .avatar { width: 30px; border-radius: 50% }
 .ph-in span { max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); font-size: 13px }
 .ledger .eyes { animation: none !important }
@@ -160,7 +162,6 @@ p { margin: 0 }
 .neg { color: var(--neg) }
 .ledger tfoot th, .ledger tfoot td { font-weight: 700; font-size: 17px; border-bottom: none; background: var(--surface-2) }
 .ledger tfoot th { text-align: left; font-size: 14px }
-.ledger tfoot td.lead { box-shadow: inset 0 -3px 0 var(--brass) }
 .empty { padding: 30px 20px; text-align: center; color: var(--muted); display: grid; gap: 6px; justify-items: center }
 .empty-title { font-family: var(--display); font-size: 22px; color: var(--ink) }
 .empty p { max-width: 42ch }

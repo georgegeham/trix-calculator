@@ -29,6 +29,9 @@ interface Store extends GameState {
   /** Read bad-luck proverbs aloud. */
   voice: boolean;
   toggleVoice: () => void;
+  /** Show the bad-luck proverb modal after an unlucky round. */
+  quoteModal: boolean;
+  toggleQuoteModal: () => void;
   openModal: (modal: Modal) => void;
   closeModal: () => void;
   showToast: (message: string) => void;
@@ -54,8 +57,10 @@ export const useGame = create<Store>()(
       toast: null,
       fx: noEffects(),
       voice: true,
+      quoteModal: true,
 
       toggleVoice: () => set((s) => ({ voice: !s.voice })),
+      toggleQuoteModal: () => set((s) => ({ quoteModal: !s.quoteModal })),
       openModal: (modal) => set({ modal }),
       closeModal: () => set({ modal: null }),
       showToast: (message) => set({ toast: { message, id: ++seq } }),
@@ -103,7 +108,7 @@ export const useGame = create<Store>()(
 
         const next = currentKingdom(get());
         const over = next?.index === KINGDOMS;
-        if (unlucky.length) setTimeout(() => get().openModal({ type: 'unlucky', events: unlucky, thenGameOver: over }), 1300);
+        if (unlucky.length && s.quoteModal) setTimeout(() => get().openModal({ type: 'unlucky', events: unlucky, thenGameOver: over }), 1300);
         else if (over) setTimeout(() => get().openModal({ type: 'over' }), 1600);
         if (next && !over && next.index !== kingdom.index) {
           get().showToast(`Kingdom ${next.index + 1}: the crown passes to ${playerName(s.players, next.captain)}`);
@@ -119,7 +124,7 @@ export const useGame = create<Store>()(
       name: 'trix-calculator',
       version: 1,
       storage: createJSONStorage(() => localStorage),
-      partialize: (s) => ({ players: s.players, first: s.first, rounds: s.rounds, pending: s.pending, voice: s.voice }),
+      partialize: (s) => ({ players: s.players, first: s.first, rounds: s.rounds, pending: s.pending, voice: s.voice, quoteModal: s.quoteModal }),
     },
   ),
 );

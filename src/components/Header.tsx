@@ -1,9 +1,10 @@
-import { game } from '../store/useGame';
+import { game, useGame } from '../store/useGame';
 import { useTable } from '../store/useTable';
 import { KINGDOMS } from '../lib/game';
 
 export function Header() {
   const { kingdom, rounds } = useTable();
+  const quoteModal = useGame((s) => s.quoteModal);
   const status = !kingdom
     ? 'Score keeper for four players'
     : kingdom.index === KINGDOMS
@@ -19,11 +20,22 @@ export function Header() {
           <p className="status">{status}</p>
         </div>
       </div>
-      {kingdom && (
-        <button className="btn btn-small" type="button" onClick={() => game().requestNewGame()}>
-          New game
+      <div className="top-actions">
+        <button
+          className="btn btn-small"
+          type="button"
+          aria-pressed={quoteModal}
+          title="Show a proverb after an unlucky round"
+          onClick={() => game().toggleQuoteModal()}
+        >
+          Proverbs: {quoteModal ? 'On' : 'Off'}
         </button>
-      )}
+        {kingdom && (
+          <button className="btn btn-small" type="button" onClick={() => game().requestNewGame()}>
+            New game
+          </button>
+        )}
+      </div>
     </header>
   );
 }

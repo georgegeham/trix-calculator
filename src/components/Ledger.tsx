@@ -8,7 +8,6 @@ import { fmt, GAMES, sign } from '../lib/rules';
 export function Ledger() {
   const { players, rounds, totals, name, face } = useTable();
   const fresh = useGame((s) => s.fx.freshRound);
-  const max = Math.max(...totals);
   const empty = players.length !== 4 || rounds.length === 0;
 
   return (
@@ -87,7 +86,7 @@ export function Ledger() {
               <tr>
                 <th colSpan={2} scope="row">Total</th>
                 {totals.map((v, i) => (
-                  <td key={i} className={`num ${sign(v)}${v === max ? ' lead' : ''}`}>{fmt(v)}</td>
+                  <td key={i} className={`num ${sign(v)}`}>{fmt(v)}</td>
                 ))}
               </tr>
             </tfoot>
